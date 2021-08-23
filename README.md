@@ -6,7 +6,8 @@ Odroid XU4 OctoPrint
 * stopped lightdm (mate) service
 * xvfb run new mate session for `odroid` user
 * x11vnc screen :99 1680x1050 for xvfb
-* OctoPrint 1.7.0rc2
+* enable avahi daemon - `3dprint.local` host
+* OctoPrint 1.7.0rc2 at [3dprint.local:8080](http://3dprint.local:8080)
 
 # How to use
 

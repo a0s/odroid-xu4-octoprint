@@ -1,3 +1,7 @@
+# TODO Add https://gist.github.com/rothgar/8793800
+- hostname:
+    name: 3dprint
+
 # Allow avahi-daemon for all ports
 - lineinfile:
     dest: /etc/avahi/avahi-daemon.conf
@@ -6,6 +10,7 @@
     state: present
     backrefs: yes
   register: avahi_config
+
 - systemd:
     name: avahi-daemon.service
     state: restarted

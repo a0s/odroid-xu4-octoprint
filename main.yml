@@ -1,0 +1,9 @@
+- hosts: all
+  tasks:
+    - include_tasks: 1_packages.yml
+    - include_tasks: 2_avahi_daemon.yml
+    - include_tasks: 3_wifi_scan.yml
+    - include_tasks: 4_xvfb_run_mate.yml
+    - include_tasks: 5_x11vnc.yml
+    - include_tasks: 6_permissions.yml
+    - include_tasks: 11_octoprint.yml

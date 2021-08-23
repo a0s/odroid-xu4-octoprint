@@ -1,0 +1,38 @@
+- apt:
+    upgrade: safe
+    update_cache: true
+    cache_valid_time: 86400
+
+- apt:
+    name:
+      - aptitude
+
+      - avahi-daemon
+      - avahi-utils
+      - build-essential
+      - ca-certificates
+      - ccze
+
+      - curl
+      - dnsutils
+      - git
+      - htop
+      - iftop
+      - ncdu
+      - net-tools
+      - nload
+
+      - python3-dev
+      - screen
+      - sysstat
+      - virtualenv
+      - wget
+      - xvfb
+
+      - pkg-config
+      - automake
+      - cmake
+      - xutils-dev
+      - gperf
+    state: present
+    install_recommends: no

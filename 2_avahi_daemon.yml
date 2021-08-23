@@ -1,0 +1,12 @@
+# Allow avahi-daemon for all ports
+- lineinfile:
+    dest: /etc/avahi/avahi-daemon.conf
+    regexp: "^#allow-interfaces=eth0"
+    line: "allow-interfaces=eth0,eth1,eth2,wlan0,wlan1,wlan2"
+    state: present
+    backrefs: yes
+  register: avahi_config
+- systemd:
+    name: avahi-daemon.service
+    state: restarted
+  when: avahi_config is changed

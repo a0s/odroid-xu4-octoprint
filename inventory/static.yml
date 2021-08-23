@@ -1,0 +1,14 @@
+all:
+  vars:
+    default_user: odroid
+    vnc_password: odroid
+    vnc_screen_width: 1680
+    vnc_screen_height: 1050
+    vnc_display_num: 99
+    octoprint_version: 1.7.0rc2
+  hosts:
+    3dprint:
+      ansible_user: root
+      ansible_host: 3dprint.local
+      ansible_ssh_private_key_file: ~/.ssh/3dprint
+      ansible_become: true

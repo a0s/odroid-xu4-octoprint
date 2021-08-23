@@ -1,0 +1,28 @@
+# Disable default mate and LightDM
+- systemd:
+    name: lightdm
+    state: stopped
+    enabled: false
+
+# Disable screensaver in Mate
+- shell: chmod -x /usr/bin/mate-screensaver
+  register: disable_screensaver
+
+# Run xvfb with Mate
+- template:
+    src: etc/systemd/system/xvfb-run-mate.service
+    dest: /etc/systemd/system/xvfb-run-mate.service
+    owner: "{{ default_user }}"
+    group: "{{ default_user }}"
+  register: xvfb_service
+
+- systemd:
+    name: xvfb-run-mate.service
+    state: restarted
+    daemon_reload: true
+  when: (xvfb_service is changed) or (disable_screensaver is changed)
+
+- systemd:
+    name: xvfb-run-mate.service
+    state: started
+    enabled: true

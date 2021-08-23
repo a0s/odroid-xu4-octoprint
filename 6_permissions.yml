@@ -1,0 +1,10 @@
+# Access user to TTY
+- shell: usermod -a -G dialout {{ default_user }}
+  changed_when: false
+
+# sudoers
+- template:
+    src: etc/sudoers.d/10-user
+    dest: /etc/sudoers.d/10-user
+    mode: '0440'
+    newline_sequence: '\n'

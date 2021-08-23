@@ -1,0 +1,18 @@
+[Unit]
+Description=Xvfb Run Mate
+After=xvfb-run-mate.service
+Requires=xvfb-run-mate.service
+
+[Service]
+User={{ default_user }}
+Group={{ default_user }}
+Restart=always
+ExecStart=/usr/bin/x11vnc \
+    -display :{{ vnc_display_num }} \
+    -auth /home/{{ default_user }}/xvfb.auth \
+    -ncache 10 \
+    -rfbauth /home/{{ default_user }}/.vnc/passwd \
+    -noxdamage
+
+[Install]
+WantedBy=multi-user.target

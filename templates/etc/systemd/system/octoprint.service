@@ -1,0 +1,17 @@
+[Unit]
+Description=OctoPrint
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User={{ default_user }}
+Group={{ default_user }}
+Environment="LC_ALL=C.UTF-8"
+Environment="LANG=C.UTF-8"
+ExecStart=/home/{{ default_user }}/octoprint-venv/bin/octoprint serve \
+    --host=0.0.0.0 \
+    --port=8080 \
+    --basedir=/home/{{ default_user }}/octoprint-basedir
+
+[Install]
+WantedBy=multi-user.target

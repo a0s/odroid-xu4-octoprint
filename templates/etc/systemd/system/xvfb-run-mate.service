@@ -1,0 +1,18 @@
+[Unit]
+Description=Xvfb Run Mate
+After=network.target
+Requires=network.target
+
+[Service]
+User={{ default_user }}
+Group={{ default_user }}
+Restart=always
+ExecStart=/usr/bin/xvfb-run \
+    --listen-tcp \
+    --server-args "-screen 0 {{ vnc_screen_width }}x{{ vnc_screen_height }}x24+32" \
+    --server-num {{ vnc_display_num }} \
+    --auth-file /home/{{ default_user }}/xvfb.auth \
+    /usr/bin/mate-session
+
+[Install]
+WantedBy=multi-user.target

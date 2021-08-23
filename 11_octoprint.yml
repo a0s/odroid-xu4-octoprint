@@ -1,0 +1,63 @@
+# OctoPrint
+- git:
+    repo: https://github.com/OctoPrint/OctoPrint.git
+    dest: /home/{{ default_user }}/OctoPrint
+    depth: 1
+    version: "{{ octoprint_version }}"
+  register: octoprint_source
+
+- file:
+    path: /home/{{ default_user }}/OctoPrint
+    state: directory
+    recurse: yes
+    owner: "{{ default_user }}"
+    group: "{{ default_user }}"
+
+- command: virtualenv octoprint-venv
+  args:
+    creates: /home/{{ default_user }}/octoprint-venv
+    chdir: /home/{{ default_user }}
+  become: yes
+  become_user: "{{ default_user }}"
+  become_method: sudo
+
+- command: /home/{{ default_user }}/octoprint-venv/bin/pip install -r /home/{{ default_user }}/OctoPrint/requirements.txt
+  args:
+    creates: /home/{{ default_user }}/octoprint-venv/bin/octoprint
+    chdir: /home/{{ default_user }}/OctoPrint
+  become: yes
+  become_user: "{{ default_user }}"
+  become_method: sudo
+
+- command: /home/{{ default_user }}/octoprint-venv/bin/pip install -r /home/{{ default_user }}/OctoPrint/requirements.txt
+  args:
+    chdir: /home/{{ default_user }}/OctoPrint
+  when: octoprint_source is changed
+  become: yes
+  become_user: "{{ default_user }}"
+  become_method: sudo
+
+- file:
+    path: /home/{{ default_user }}/octoprint-basedir
+    state: directory
+    recurse: yes
+    owner: "{{ default_user }}"
+    group: "{{ default_user }}"
+
+- template:
+    src: etc/systemd/system/octoprint.service
+    dest: /etc/systemd/system/octoprint.service
+    owner: "{{ default_user }}"
+    group: "{{ default_user }}"
+  register: octoprint_service
+
+- systemd:
+    name: octoprint.service
+    state: restarted
+    daemon_reload: true
+  when: octoprint_service is changed
+
+- systemd:
+    name: octoprint.service
+    state: started
+    enabled: true

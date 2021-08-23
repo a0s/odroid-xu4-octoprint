@@ -1,0 +1,32 @@
+# Run x11vnc
+- file:
+    path: /home/{{ default_user }}/.vnc
+    state: directory
+    recurse: true
+    owner: "{{ default_user }}"
+    group: "{{ default_user }}"
+
+- command: x11vnc -storepasswd {{ vnc_password }} /home/{{ default_user }}/.vnc/passwd
+  args:
+    creates: /home/{{ default_user }}/.vnc/passwd
+  become: yes
+  become_user: "{{ default_user }}"
+  become_method: sudo
+
+- template:
+    src: etc/systemd/system/x11vnc.service
+    dest: /etc/systemd/system/x11vnc.service
+    owner: "{{ default_user }}"
+    group: "{{ default_user }}"
+  register: x11vnc_service
+
+- systemd:
+    name: x11vnc.service
+    state: restarted
+    daemon_reload: true
+  when: x11vnc_service is changed
+
+- systemd:
+    name: x11vnc.service
+    state: started
+    enabled: true

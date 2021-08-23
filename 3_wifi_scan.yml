@@ -1,0 +1,11 @@
+# Allow wifi-scan by user
+- template:
+    src: etc/polkit-1/localauthority/50-local.d/allow-wifi-scan.pkla
+    dest: /etc/polkit-1/localauthority/50-local.d/10-network-manager.pkla
+  register: allow_wifi_scan
+
+- systemd:
+    name: network-manager
+    state: restarted
+    enabled: true
+  when: allow_wifi_scan is changed

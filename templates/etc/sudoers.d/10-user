@@ -1,1 +1,1 @@
-{{ default_user }} ALL=(ALL:ALL) ALL
+{{ default_user }} ALL=(ALL) NOPASSWD:ALL

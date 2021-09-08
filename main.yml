@@ -7,3 +7,4 @@
     - include_tasks: 5_x11vnc.yml
     - include_tasks: 6_permissions.yml
     - include_tasks: 11_octoprint.yml
+    - include_tasks: 12_webcam.yml

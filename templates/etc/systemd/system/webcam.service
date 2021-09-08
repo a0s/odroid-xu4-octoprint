@@ -1,0 +1,16 @@
+[Unit]
+Description=Webcam
+After=network.target
+Requires=network.target
+
+[Service]
+Restart=always
+WorkingDirectory=/root/mjpg-streamer/mjpg-streamer-experimental
+EnvironmentFile=/root/mjpg-streamer/mjpg-streamer-experimental/environment
+ExecStart=\
+     /root/mjpg-streamer/mjpg-streamer-experimental/_build/mjpg_streamer \
+        -i "input_uvc.so --resolution 1280x720 -d ${DEVICE} -y" \
+        -o "output_http.so -p 8090 -w ./www"
+
+[Install]
+WantedBy=multi-user.target

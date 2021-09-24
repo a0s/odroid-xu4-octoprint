@@ -1,6 +1,27 @@
 # Access user to TTY
-- shell: usermod -a -G dialout {{ default_user }}
-  changed_when: false
+- user:
+    name: "{{ default_user }}"
+    groups:
+      - adm
+      - audio
+      - bluetooth
+      - dialout
+      - disk
+      - kmem
+      - kvm
+      - lightdm
+      - lp
+      - nopasswdlogin
+      - pulse
+      - pulse-access
+      - scanner
+      - sudo
+      - video
+  register: groups
+
+- reboot:
+    reboot_timeout: 600
+  when: groups is changed
 
 # sudoers
 - template:

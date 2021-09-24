@@ -1,4 +1,8 @@
 # Run x11vnc
+- apt:
+    name:
+      - x11vnc
+
 - file:
     path: /home/{{ default_user }}/.vnc
     state: directory

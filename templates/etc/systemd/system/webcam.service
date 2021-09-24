@@ -6,7 +6,8 @@ Requires=network.target
 [Service]
 Restart=always
 WorkingDirectory=/root/mjpg-streamer/mjpg-streamer-experimental
-EnvironmentFile=/root/mjpg-streamer/mjpg-streamer-experimental/environment
+EnvironmentFile={{ environment_path }}
+ExecStartPre=-{{ webcam_pre }}
 ExecStart=\
      /root/mjpg-streamer/mjpg-streamer-experimental/_build/mjpg_streamer \
         -i "input_uvc.so --resolution 1280x720 -d ${DEVICE} -y" \

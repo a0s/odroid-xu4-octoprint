@@ -12,6 +12,7 @@
       - build-essential
       - ca-certificates
       - ccze
+      - prometheus-node-exporter-collectors
 
       - curl
       - dnsutils

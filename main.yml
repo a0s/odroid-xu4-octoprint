@@ -1,5 +1,6 @@
 - hosts: all
   tasks:
+    - include_role: name=finaldes.ansible_ubuntu_disable_auto_update
     - include_tasks: 1_packages.yml
     - include_tasks: 2_avahi_daemon.yml
     - include_tasks: 3_wifi_scan.yml

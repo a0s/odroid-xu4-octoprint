@@ -1,21 +1,31 @@
 # FIXME!!! full compilation process
-#- apt:
-#    name:
-#      - v4l-utils
-#      - cmake
-#      - libjpeg8-dev
-#
-#- shell: |
-#    git clone https://github.com/jacksonliam/mjpg-streamer.git /root/mjpg-streamer
-#    cd /root/mjpg-streamer/mjpg-streamer-experimental
-#    make distclean
-#    make
+- apt:
+    name:
+      - v4l-utils
+      - cmake
+      - libjpeg8-dev
 
-- shell: echo "DEVICE=$(/usr/bin/v4l2-ctl --media-bus-info  usb-12110000.usb-1 --list-devices | grep video | head -n 1)" > /root/mjpg-streamer/mjpg-streamer-experimental/environment
+- shell: |
+    git clone https://github.com/jacksonliam/mjpg-streamer.git /root/mjpg-streamer
+    cd /root/mjpg-streamer/mjpg-streamer-experimental
+    make distclean
+    make
+  args:
+    creates: /root/mjpg-streamer
+
+- template:
+    src: webcam-pre.sh
+    dest: /root/mjpg-streamer/mjpg-streamer-experimental/webcam-pre.sh
+    mode: 0755
+  vars:
+    environment_path: /root/mjpg-streamer/mjpg-streamer-experimental/environment
 
 - template:
     src: etc/systemd/system/webcam.service
     dest: /etc/systemd/system/webcam.service
+  vars:
+    environment_path: /root/mjpg-streamer/mjpg-streamer-experimental/environment
+    webcam_pre: /root/mjpg-streamer/mjpg-streamer-experimental/webcam-pre.sh
   register: webcam_service
 
 - systemd:
